@@ -41,8 +41,12 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('dashboard')" class="flex flex-auto space-x-2">
                                     <ApplicationMark class="block h-9 w-auto" />
+
+                                    <h1 class="font-semibold text-xl text-green-800 dark:text-green-200 leading-tight">
+                                        My finbook
+                                    </h1>
                                 </Link>
                             </div>
 
@@ -50,6 +54,14 @@ const logout = () => {
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
+                                </NavLink>
+
+                                <NavLink :href="route('ledgers.index')" :active="route().current('ledgers.index')">
+                                    Ledgers
+                                </NavLink>
+
+                                <NavLink :href="''" :active="route().current('dashboard')">
+                                    Statistics
                                 </NavLink>
                             </div>
                         </div>
