@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('ledger_id');
+            $table->string('transaction_key', 80)->index();
+            $table->string('subtransaction_key', 80)->index();
+            $table->timestamps();
+
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('ledger_id')->references('id')->on('ledgers');
-            $table->string('transaction_key', 80);
-            $table->string('subtransaction_key', 80);
-            $table->timestamps();
         });
     }
 

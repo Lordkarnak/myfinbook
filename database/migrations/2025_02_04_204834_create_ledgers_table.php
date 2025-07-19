@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('ledgers', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->boolean('is_bank');
-            $table->string('bank_owner');
-            $table->string('bank_iban');
-            $table->string('bank_bic');
-            $table->text('description');
+            $table->boolean('is_bank')->default(false);
+            $table->string('bank_owner')->nullable()->default(null);
+            $table->string('bank_iban')->nullable()->default(null);
+            $table->string('bank_bic')->nullable()->default(null);
+            $table->text('description')->nullable()->default(null);
             $table->timestamps();
         });
     }
