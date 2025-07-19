@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TransactionInfo extends Model
 {
@@ -16,4 +18,14 @@ class TransactionInfo extends Model
         'immediate',
         'process_date'
     ];
+
+    public function transaction() : BelongsTo
+    {
+        return $this->belongsTo(Transaction::class);
+    }
+
+    public function currency() : HasOne
+    {
+        return $this->hasOne(Currency::class);
+    }
 }

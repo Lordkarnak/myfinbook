@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ledger extends Model
 {
@@ -16,4 +17,9 @@ class Ledger extends Model
         'bank_bic',
         'description'
     ];
+
+    public function transactions() : HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

@@ -24,4 +24,9 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('ledgers', LedgerController::class);
+
+    Route::get('/statistics', function() {
+        return Inertia::render('Statistics');
+    })
+    ->name('statistics.index');
 });

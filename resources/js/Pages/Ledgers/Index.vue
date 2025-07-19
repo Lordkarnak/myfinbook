@@ -1,20 +1,29 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue';
+import { Link } from '@inertiajs/vue3';
 defineProps({ user: Object, ledgers: Array })
 </script>
 
 <template>
     <AppLayout title="Ledgers">
-        <template #header class="flex flex-row justify-between px-10">
-            <h2 class="font-semibold text-xl text-amber-800">
-                Ledgers
-            </h2>
+        <template #header>
+            <div class="flex flex-row justify-normal space-x-4 px-10">
+                <div class="inline-block">
+                    <h2 class="font-semibold text-xl text-amber-800">
+                        Ledgers
+                    </h2>
+                </div>
 
-            <h2 class="font-semibold text-xl text-green-400">
-                <button type="button">
-                    New Ledger
-                </button>
-            </h2>
+                <div class="inline-block">
+                    <Link :href="route('ledgers.create')" class="shrink-0">
+                        <h2 class="font-semibold text-xl text-green-400">
+                            <button type="button">
+                                New Ledger
+                            </button>
+                        </h2>
+                    </Link>
+                </div>
+            </div>
         </template>
 
         <div class="py-12 px-2">

@@ -60,7 +60,7 @@ const logout = () => {
                                     Ledgers
                                 </NavLink>
 
-                                <NavLink :href="''" :active="route().current('dashboard')">
+                                <NavLink :href="route('statistics.index')" :active="route().current('statistics.index')">
                                     Statistics
                                 </NavLink>
                             </div>

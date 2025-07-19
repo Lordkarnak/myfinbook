@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('transactions_info', function (Blueprint $table) {
             $table->id();
+            $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->foreign('transaction_key')->references('transaction_key')->on('transactions');
             $table->string('beneficiary');
             $table->foreign('currency_id')->references('id')->on('currencies');
             $table->float('amount', 4);

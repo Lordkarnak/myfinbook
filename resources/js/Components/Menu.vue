@@ -22,7 +22,7 @@ import { Link, router } from '@inertiajs/vue3';
             </div>
 
             <div>
-                <Link :href="''">
+                <Link :href="route('statistics.index')">
                     <div class="border border-green-800 rounded-md text-center bg-slate-200 py-4 px-32">
                         <h2 class="font-semibold text-xl text-green-800 dark:text-green-200 text-opacity-20">
                             View Statistics
