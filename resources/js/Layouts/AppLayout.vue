@@ -41,7 +41,7 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')" class="flex flex-auto space-x-2">
+                                <Link :href="route('home')" class="flex flex-auto space-x-2">
                                     <ApplicationMark class="block h-9 w-auto" />
 
                                     <h1 class="font-semibold text-xl text-green-800 dark:text-green-200 leading-tight">
@@ -52,8 +52,8 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                <NavLink :href="route('home')" :active="route().current('home')">
+                                    Home
                                 </NavLink>
 
                                 <NavLink :href="route('ledgers.index')" :active="route().current('ledgers.index')">
@@ -203,8 +203,8 @@ const logout = () => {
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                        <ResponsiveNavLink :href="route('home')" :active="route().current('home')">
+                            Home
                         </ResponsiveNavLink>
                     </div>
 
@@ -294,7 +294,13 @@ const logout = () => {
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+                    <slot />
+                </div>
+                </div>
+                </div>
             </main>
         </div>
     </div>

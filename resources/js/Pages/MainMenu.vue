@@ -39,10 +39,10 @@ function handleImageError() {
                     <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
                         <Link
                             v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
+                            :href="route('home')"
                             class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                         >
-                            Dashboard
+                            Home
                         </Link>
 
                         <template v-else>
@@ -66,7 +66,7 @@ function handleImageError() {
 
                 <main class="mt-6">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-                        
+
                     </div>
                 </main>
 
