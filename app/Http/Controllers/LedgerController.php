@@ -7,21 +7,25 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class LedgerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index() : Response
+    public function index() : \Inertia\Response
     {
         if (!auth()->check()) {
-            abort(403);
+            abort(\App\Services\HttpService::HTTP_RESPONSE_FORBIDDEN);
         }
-        
+
+        $ledgers = Ledger::query()
+            ->orderBy('name')
+            ->get();
+
         return Inertia::render('Ledgers/Index', [
-            'user' => auth()->user()
+            'user' => auth()->user(),
+            'ledgers' => $ledgers,
         ]);
     }
 
@@ -31,7 +35,7 @@ class LedgerController extends Controller
     public function create()
     {
         if (!auth()->check()) {
-            abort(403);
+            abort(\App\Services\HttpService::HTTP_RESPONSE_FORBIDDEN);
         }
 
         return Inertia::render('Ledgers/NewLedger');
@@ -40,24 +44,24 @@ class LedgerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : JsonResponse
+    public function store(Request $request) : \Inertia\Response|\Symfony\Component\HttpFoundation\Response
     {
         if (!auth()->check()
-            || $request->method() !== 'POST') {
-            abort(403);
+            || $request->method() !== \App\Services\HttpService::HTTP_METHOD_POST) {
+            abort(\App\Services\HttpService::HTTP_RESPONSE_FORBIDDEN);
         }
 
-        if (!$request->has('ledgerName') || $request->isNotFilled('ledgerName')) {
-            return response()->json([
-                'status' => 'FAIL',
-                'message' => 'You must provide a valid ledger name'
-            ]);
-        }
+        $validated = $request->validate([
+            'ledgerName'    => ['required', 'max:100'],
+            'description'   => ['max:400'],
+            'isBank'        => ['boolean'],
+            'bankOwner'     => ['required_if:isBank,1'],
+        ]);
 
-        if (Ledger::where('name', '=', $request->input('ledgerName'))->first() !== null) {
-            return response()->json([
-                'status' => 'FAIL',
-                'message' => 'The ledger you are trying to create already exists!'
+        if (Ledger::where('name', '=', $validated['ledgerName'])->first() !== null) {
+            return Inertia::render('Ledgers/NewLedger')->with([
+                'status' => \App\Services\HttpService::JSON_RESPONSE_STATUS_FAILED,
+                'errors' => ['general' => 'The ledger you are trying to create already exists!']
             ]);
         }
 
@@ -71,15 +75,17 @@ class LedgerController extends Controller
         ]);
 
         if (!$newLedger->save()) {
-            return response()->json([
-                'status' => 'FAIL',
-                'message' => 'Could not save ledger. Operation aborted'
-            ]);
+            return Inertia::render('Ledgers/NewLedger')->with([
+                    'status' => \App\Services\HttpService::JSON_RESPONSE_STATUS_FAILED,
+                    'errors' => ['general' => 'Could not save ledger. Aborted!']
+                ])
+                ->toResponse($request)
+                ->setStatusCode(\App\Services\HttpService::HTTP_RESPONSE_SERVER_ERROR);
         }
 
-        return response()->json([
-            'status' => 'SUCCESS',
-            'message' => 'The ledger was saved!'
+        return Inertia::render('Ledgers/Index')->with([
+            'status' => \App\Services\HttpService::JSON_RESPONSE_STATUS_SUCCESS,
+            'message' => 'A ledger was created.'
         ]);
     }
 

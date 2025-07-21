@@ -17,7 +17,7 @@ defineProps({ user: Object, ledgers: Array })
                 <div class="inline-block">
                     <Link :href="route('ledgers.create')" class="shrink-0">
                         <h2 class="font-semibold text-xl text-green-400">
-                            <button type="button">
+                            <button type="button" class="text-neutral-700 font-semibold border-2 border-y-green-200 border-x-green-400 bg-neutral-50 rounded-3xl px-2 py-1">
                                 New Ledger
                             </button>
                         </h2>

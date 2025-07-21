@@ -5,7 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/', function (): \Inertia\Response {
     return Inertia::render('MainMenu', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -19,17 +19,17 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/', function() {
-        return Inertia::render('Home');
+    Route::get('/', function(): \Illuminate\Http\RedirectResponse {
+        return redirect('home', \App\Services\HttpService::HTTP_RESPONSE_FOUND);
     });
 
-    Route::get('/home', function () {
+    Route::get('/home', function (): \Inertia\Response {
         return Inertia::render('Home');
     })->name('home');
 
     Route::resource('ledgers', LedgerController::class);
 
-    Route::get('/statistics', function() {
+    Route::get('/statistics', function(): \Inertia\Response {
         return Inertia::render('Statistics');
     })
     ->name('statistics.index');
