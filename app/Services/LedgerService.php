@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class LedgerService
+class LedgerService implements ServiceInterface
 {
     public const ORDER = [
         'id' => 'id',
@@ -21,19 +21,33 @@ class LedgerService
      * @throws \App\Exceptions\InvalidOrderException
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getLedgers(array $filters = [], string $orderBy = 'name'): \Illuminate\Database\Eloquent\Collection
+    public function getLedgers(array $filters = [], string $orderBy = 'name'): \Illuminate\Support\Collection
     {
         if (!self::orderIsValid($orderBy)) {
             throw new \App\Exceptions\InvalidOrderException('Cannot order query by ' . $orderBy);
         }
 
-        return \App\Models\Ledger::query()
+        return $this->format(
+            \App\Models\Ledger::query()
             ->orderBy($orderBy)
-            ->get();
+            ->get()
+        );
     }
 
     public function orderIsValid(string $orderBy): bool
     {
         return $orderBy && isset(self::ORDER[$orderBy]);
+    }
+
+    public function format(\Illuminate\Support\Collection $collection): \Illuminate\Support\Collection
+    {
+        return $collection->map(function(\App\Models\Ledger $item): \App\Models\Ledger {
+            $item['url'] = route('ledgers.show', ['ledger' => $item->id]);
+            $item['income'] = 0;
+            $item['expenses'] = 0;
+            $item['balance'] = 0;
+
+            return $item;
+        });
     }
 }

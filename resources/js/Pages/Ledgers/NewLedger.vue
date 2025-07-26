@@ -7,7 +7,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { reactive } from 'vue';
 import { router } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
-
+import { goBack } from '@/app_functions';
 defineProps({ errors: Object })
 
 const form = reactive({
@@ -95,11 +95,22 @@ function submit() {
                 <!-- end section -->
             </div>
 
-            <button
-                class="ml-4 my-4 px-4 py-px font-medium text-ellipsis text-nowrap border-2 border-y-green-200 border-x-green-400 rounded-xl"
-                type="submit"
-                :disabled="form.processing"
-            >Save</button>
+            <div class="flex flex-row flex-nowrap px-2">
+                <div>
+                    <button
+                        class="ml-4 my-4 px-4 py-px font-medium text-ellipsis text-nowrap border-2 border-y-red-200 border-x-red-400 rounded-xl"
+                        type="button"
+                        v-on:click="goBack()"
+                        >Cancel</button>
+                </div>
+                <div>
+                    <button
+                        class="ml-4 my-4 px-4 py-px font-medium text-ellipsis text-nowrap border-2 border-y-green-200 border-x-green-400 rounded-xl"
+                        type="submit"
+                        :disabled="form.processing"
+                    >Save</button>
+                </div>
+            </div>
         </form>
     </AppLayout>
 </template>
