@@ -45,7 +45,7 @@ defineProps({ user: Object, ledgers: Array })
                             </div>
                         </div>
                         <div class="table-row-group">
-                            <div class="table-row" v-for="legder in ledgers.data">
+                            <div class="table-row" v-for="ledger in ledgers">
                                 <div class="table-cell text-left pl-2">{{ ledger.name }}</div>
                                 <div class="table-cell text-left pl-2">{{ ledger.created_at }}</div>
                                 <div class="table-cell text-left pl-2">{{ ledger.income }}</div>

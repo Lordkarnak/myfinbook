@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ledger;
+use App\Services\LedgerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,9 +20,7 @@ class LedgerController extends Controller
             abort(\App\Services\HttpService::HTTP_RESPONSE_FORBIDDEN);
         }
 
-        $ledgers = Ledger::query()
-            ->orderBy('name')
-            ->get();
+        $ledgers = new LedgerService()->getLedgers();
 
         return Inertia::render('Ledgers/Index', [
             'user' => auth()->user(),
